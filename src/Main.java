@@ -241,9 +241,25 @@ public class Main {
         Product selectedProduct = productList.get(answer - 1);
         selectOption(selectedProduct);
         addWishlist(selectedProduct);
+        requestMessage(answer);
     }
     //천천히 출력되게끔,,
     public static void delay() throws InterruptedException {
         Thread.sleep(200);
+    }
+    public static void requestMessage(int answer){
+        if (answer == 1){
+        System.out.println("추가 요청사항이 있다면 입력해주세요(20자 이내 작성, 없을시 엔터)");
+        Scanner sc = new Scanner(System.in);
+        String requestMessage = sc.nextLine();
+        if(requestMessage.length()>20) {
+            System.out.println("입력가능한 글자를 초과하였습니다. 다시 입력해주시길 바랍니다.");
+            requestMessage(answer);
+        }else if (requestMessage == ""){
+        }else{
+            System.out.println("추가요청사항 : " + requestMessage);
+                System.out.println("확인했습니다. 감사합니다.");
+            }
+        }
     }
 }
