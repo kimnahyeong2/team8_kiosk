@@ -286,7 +286,7 @@ public class Main {
                 callKioskManager();
             }
             else{
-                //order.complete(answer);
+
                 System.out.println("상품이 완료주문으로 변경되었습니다.");
                 System.out.println(waitingList.get(answer-1).getState());
 
