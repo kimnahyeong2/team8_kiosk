@@ -245,6 +245,7 @@ public class Main {
         if (answer != 1) {
             System.out.println("취소되었습니다.");
         } else {
+            requestMessage(answer);
             boolean exists = false;
             //장바구니 내 이미 selectedProduct가 존재하는지 여부
             for(int i=0; i<order.getWishlist().size(); i++){
@@ -275,7 +276,6 @@ public class Main {
         Product selectedProduct = productList.get(answer - 1);
         selectOption(selectedProduct);
         addWishlist(selectedProduct);
-        requestMessage(answer);
     }
     //천천히 출력되게끔,,
     public static void delay() throws InterruptedException {
@@ -283,7 +283,7 @@ public class Main {
     }
     public static void requestMessage(int answer){
         if (answer == 1){
-        System.out.println("추가 요청사항이 있다면 입력해주세요(20자 이내 작성, 없을시 엔터)");
+        System.out.println("추가요청사항이 있다면 입력해주세요(20자 이내 작성, 없을시 엔터)");
         Scanner sc = new Scanner(System.in);
         String requestMessage = sc.nextLine();
         if(requestMessage.length()>20) {
