@@ -5,7 +5,9 @@ public class Main {
     public static double total = 0;
 
     static Scanner sc = new Scanner(System.in);
+    private static List<CompletedOrder> completedList = new ArrayList<>();
     static Order order = new Order();
+
     static int waiting = 0;
     static KioskManager manager = new KioskManager();
 
@@ -263,9 +265,86 @@ public class Main {
     }
 
     /*김예성*/
+    public static void getWaitingList() {
+        System.out.println("현재 대기 주문 목록입니다.");
+        List<OrderData> waitingList = OrderData.orderedDataList;
+        if (waitingList.isEmpty()) {
+            System.out.println("대기 주문 목록이 없습니다.");
+        } else {
+            System.out.println("대기중인 주문 목록을 보여줍니다.");
+
+            for (OrderData waitingData : waitingList) {
+                //대기주문중인(1) OrderData만 출력
+                if(waitingData.getState() == 1){
+                    System.out.println(waitingData);
+                }
+            }
+            System.out.println("완료주문으로 변경하실 대기번호를 입력해주세요");
+            System.out.println("0: 돌아가기");
+            int answer = sc.nextInt();
+            if(answer == 0){
+                callKioskManager();
+            }
+            else{
+
+                System.out.println("상품이 완료주문으로 변경되었습니다.");
+                System.out.println(waitingList.get(answer-1).getState());
+
+                // 대기 주문에서 상품 목록 가져오기
+                String[] orderedNameList = waitingList.get(answer - 1).getNameList();
+                String[] completedProducts = new String[orderedNameList.length];
+                for (int i = 0; i < orderedNameList.length; i++) {
+                    completedProducts[i] = orderedNameList[i];
+                }
+
+                // 완료된 주문을 completedList에 추가
+                CompletedOrder completedOrder = new CompletedOrder(waitingList.get(answer - 1).getWaitingNumber(),
+                        completedProducts,
+                        waitingList.get(answer - 1).getTotalPrice(),
+                        waitingList.get(answer - 1).getRequiredMsg());
+                completedList.add(completedOrder);
+            }
+        }
+    }
+
+    /*서지인*/
+    // 완료 주문 목록
+    public static void completeOrderList() {
+        System.out.println("현재 완료 주문 목록입니다.");
+
+        if (completedList.isEmpty()) {
+            System.out.println("완료 주문 목록이 없습니다.");
+        } else {
+            System.out.println("완료된 주문 목록을 보여줍니다.");
+
+            for (CompletedOrder completedData : completedList) {
+                System.out.println("대기 번호 : " + completedData.getOrderNumber());
+                System.out.println("주문 번호 : " + completedData.getOrderNumber());
+                System.out.println("주문 총 가격 : " + completedData.getTotalPrice());
+                System.out.println("주문 일시 : " + completedData.getCompletedTime());
+                System.out.println("요청 사항 : " + completedData.getRequest());
+                System.out.println("완료주문 일시 : " + completedData.getCompletedTime().toString());
+                System.out.println("상품 목록 : ");
+
+                String[] productList = completedData.getCompletedList();
+                for (String product : productList) {
+                    System.out.println(product);
+                }
+            }
+        }
+    }
 
     /*김예성*/
-
+    public static void callKioskManager(){
+        System.out.println("1. 대기주문 목록 2. 완료주문 목록 3. 상품 생성 4. 상품 삭제");
+        int answer = sc.nextInt();
+        switch (answer){
+            case 1 -> {getWaitingList();break;}
+            case 2 -> {completeOrderList();break;}
+            case 3 -> {break;}
+            case 4 -> {break;}
+        }
+    }
 
 
     public static void selectProcess(int answer) throws InterruptedException {
