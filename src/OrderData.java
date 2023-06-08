@@ -11,7 +11,7 @@ public class OrderData {
     int waitingNumber;
 
     //구매상품목록
-    ArrayList<Product> orderedProductList;
+    String[] nameList;
 
     //총 구매 가격
     double totalPrice;
@@ -19,13 +19,12 @@ public class OrderData {
     String requiredMsg;
     //주문일자 or 완료일자
     Date orderedDate;
-    //상태 1: 대기주문 2: 완료주문
+    //상태 1: 준비중 2: 완료
     int state;
 
-    public OrderData(int waitingNumber, ArrayList<Product> orderedProductList, double totalPrice, String requiredMsg, Date orderedDate, int state) {
+    public OrderData(int waitingNumber, String[] nameList, double totalPrice, String requiredMsg, Date orderedDate, int state) {
         this.waitingNumber = waitingNumber;
-        this.orderedProductList = orderedProductList;
-        System.out.println(orderedProductList.get(0).getName());
+        this.nameList = nameList;
         this.totalPrice = totalPrice;
         this.requiredMsg = requiredMsg;
         this.orderedDate = orderedDate;
@@ -51,12 +50,12 @@ public class OrderData {
         this.waitingNumber = waitingNumber;
     }
 
-    public List<Product> getOrderedProductList() {
-        return orderedProductList;
+    public String[] getNameList() {
+        return nameList;
     }
 
-    public void setOrderedProductList(ArrayList<Product> orderedProductList) {
-        this.orderedProductList = orderedProductList;
+    public void setNameList(String[] nameList) {
+        this.nameList = nameList;
     }
 
     public double getTotalPrice() {
@@ -83,27 +82,31 @@ public class OrderData {
         this.orderedDate = orderedDate;
     }
 
+    //여기에서만 쓰이므로 작성
+    //state상태를 1이면 중 2이면 완료로 표시
+    public String trancelateState(int state){
+        return switch (state) {
+            case 1 -> "준비중";
+            case 2 -> "완료";
+            default -> "알 수 없음";
+        };
+    }
 
 
     @Override
     public String toString() {
-        //값이 담기질 않아 값이 없습니다가 출력됩니다.
-        if(orderedProductList.isEmpty()){
-            System.out.println("orderedProductList 안의 값이 없습니다.");
+
+        StringBuilder sb = new StringBuilder();
+        for(String name : nameList){
+            sb.append(name);
         }
 
-        StringBuilder st = new StringBuilder();
-        for(Product product : orderedDataList.get(0).orderedProductList){
-            st.append(product.getName());
-        }
 
-        return "OrderData{" +
-                "대기번호=" + waitingNumber +
-                ", 주문상품목록= " + st.toString() +
-                ", 총 가격=" + totalPrice +
-                ", 요청사항='" + requiredMsg + '\'' +
-                ", 주문일자=" + orderedDate +
-                ", 상태=" + state +
-                '}';
+        return  "\n[주문번호]\t: " + waitingNumber +
+                "\n[주문상품]\t: " + sb +
+                "\n[총 가격]\t: " + totalPrice +
+                "\n[요청사항]\t: '" + requiredMsg + '\'' +
+                "\n[주문일자]\t: " + orderedDate +
+                "\n[현재상태]:\t: " +trancelateState(state);
     }
 }

@@ -9,6 +9,7 @@ public class Main {
     static Order order = new Order();
 
     static int waiting = 0;
+    static KioskManager manager = new KioskManager();
 
 
     public static void main(String[] args) throws InterruptedException {
@@ -16,6 +17,8 @@ public class Main {
 
             ArrayList<Menu> menuArrayList = getMenuList();
             ArrayList<Product> productList;
+            System.out.println("---------------------------------------");
+            manager.getCurrentOrderList();
             System.out.println("---------------------------------------\n");
             System.out.println("SHAKESHACK BURGER 에 오신걸 환영합니다.");
             System.out.println("아래 메뉴판을 보시고 메뉴를 골라 입력해주세요.\n");
@@ -24,9 +27,10 @@ public class Main {
                 int answer = selectMenu(menuArrayList);
 
                 switch (answer) {
-                    /*kys: 0606 키오스크 관리프로그램*/
+                    /*kys: 0606 키오스크 관리 프로그램*/
                     case 8 -> {
-                        callKioskManager();
+                        manager.callManager();
+
                     }
                     /**/
                     case 0 -> {
@@ -51,6 +55,7 @@ public class Main {
                         selectProcess(answer);
 
                     }
+                    //주문화면
                     case 5 -> {
                         System.out.println("아래와 같이 주문하시겠습니까?\n");
                         System.out.println("[ Orders ]");
@@ -85,19 +90,22 @@ public class Main {
                                     order.addSelledList(selledProduct);
                                 }
                                 /*김예성: 주문상품을 하나로 묶어 OrderData객체(주문목록)로 만듬
-                                 * orderedDataList를 static으로 사용, 대기목록과 완료목록 둘다 사용할 수 있게끔 하였음
-                                 * issue :
-                                 *       95번째줄의 new OrderData할때 wishlist가 넘어가질 않습니다.. OrderData생성자 쪽에서 출력해봤을 때 안나옵니다.
-                                 *       여기서 출력하는 94번째줄의 wishilist.get(0).getName()는 이상없이 잘나옵니다.,
-                                 *       객체를 생성하고 넘기는중에 문제가발생한것같습니다.
                                  * */
                                 waiting++;
 
-                                System.out.println(wishlist.get(0).getName());
-                                OrderData.orderedDataList.add(new OrderData(waiting,wishlist,total,"요청사항메세지입니다.",new Date(),1));
+
+                                String[] nameList = new String[wishlist.size()];
+                                for(int i=0; i<wishlist.size(); i++){
+                                    nameList[i] = wishlist.get(i).getName();
+                                }
+                                OrderData orderdata = new OrderData(waiting,nameList,total,"요청사항메세지입니다.",new Date(),1);
+                                OrderData.orderedDataList.add(orderdata);
                                 /**/
 
+                                //장바구니 비우기
                                 order.clear();
+                                //총 가격 초기화
+                                total = 0;
                                 System.out.println("대기번호는 [ " + waiting + " ] 번 입니다.");
                                 System.out.println("(3초 후 메뉴판으로 돌아갑니다.)");
                                 Thread.sleep(3000);}
@@ -340,14 +348,31 @@ public class Main {
 
 
     public static void selectProcess(int answer) throws InterruptedException {
+
         ArrayList<Product>productList = getProductList(answer);
         answer = selectProduct(productList);
         Product selectedProduct = productList.get(answer - 1);
         selectOption(selectedProduct);
         addWishlist(selectedProduct);
+        requestMessage(answer);
     }
     //천천히 출력되게끔,,
     public static void delay() throws InterruptedException {
-        Thread.sleep(200);
+        Thread.sleep(0);
+    }
+    public static void requestMessage(int answer){
+        if (answer == 1){
+        System.out.println("추가 요청사항이 있다면 입력해주세요(20자 이내 작성, 없을시 엔터)");
+        Scanner sc = new Scanner(System.in);
+        String requestMessage = sc.nextLine();
+        if(requestMessage.length()>20) {
+            System.out.println("입력가능한 글자를 초과하였습니다. 다시 입력해주시길 바랍니다.");
+            requestMessage(answer);
+        }else if (requestMessage == ""){
+        }else{
+            System.out.println("추가요청사항 : " + requestMessage);
+                System.out.println("확인했습니다. 감사합니다.");
+            }
+        }
     }
 }
