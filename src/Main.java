@@ -291,10 +291,10 @@ public class Main {
                 System.out.println(waitingList.get(answer-1).getState());
 
                 // 대기 주문에서 상품 목록 가져오기
-                List<Product> orderedProductList = waitingList.get(answer - 1).getOrderedProductList();
-                String[] completedProducts = new String[orderedProductList.size()];
-                for (int i = 0; i < orderedProductList.size(); i++) {
-                    completedProducts[i] = orderedProductList.get(i).getName();
+                String[] orderedNameList = waitingList.get(answer - 1).getNameList();
+                String[] completedProducts = new String[orderedNameList.length];
+                for (int i = 0; i < orderedNameList.length; i++) {
+                    completedProducts[i] = orderedNameList[i];
                 }
 
                 // 완료된 주문을 completedList에 추가
