@@ -241,7 +241,6 @@ public class KioskManager {
 
     public static void deleteProduct() {
 
-        sc.nextLine(); // 입력 대기열에 남아있는 개행 문자 제거
 
         System.out.println("삭제할 상품의 메뉴를 입력하세요:");
         System.out.println("1. Burgers");

@@ -101,12 +101,11 @@ public class Main {
                                  * */
                                 waiting++;
 
-
                                 String[] nameList = new String[wishlist.size()];
                                 for(int i=0; i<wishlist.size(); i++){
                                     nameList[i] = wishlist.get(i).getName();
                                 }
-                                OrderData orderdata = new OrderData(waiting,nameList,total,"요청사항메세지입니다.",1);
+                                OrderData orderdata = new OrderData(waiting,nameList,total,requiredMsg,1);
                                 OrderData.orderedDataList.add(orderdata);
                                 /**/
 
@@ -230,6 +229,7 @@ public class Main {
         return selectedProduct;
     }
     //장바구니로 담는 메서드,, 이것도 반복되는 것 같아 함수로 만들었다.
+    static String requiredMsg;
     public static void addWishlist(Product selectedProduct){
 
         System.out.println(selectedProduct.toString());
@@ -239,7 +239,7 @@ public class Main {
         if (answer != 1) {
             System.out.println("취소되었습니다.");
         } else {
-            requestMessage(answer);
+            requiredMsg = requestMessage(answer);
             boolean exists = false;
             //장바구니 내 이미 selectedProduct가 존재하는지 여부
             for(int i=0; i<order.getWishlist().size(); i++){
@@ -275,13 +275,12 @@ public class Main {
         Product selectedProduct = productList.get(answer - 1);
         selectOption(selectedProduct);
         addWishlist(selectedProduct);
-        requestMessage(answer);
     }
     //천천히 출력되게끔,,
     public static void delay() throws InterruptedException {
         Thread.sleep(0);
     }
-    public static void requestMessage(int answer){
+    public static String requestMessage(int answer){
         if (answer == 1){
         System.out.println("추가요청사항이 있다면 입력해주세요(20자 이내 작성, 없을시 엔터)");
         Scanner sc = new Scanner(System.in);
@@ -289,11 +288,14 @@ public class Main {
         if(requestMessage.length()>20) {
             System.out.println("입력가능한 글자를 초과하였습니다. 다시 입력해주시길 바랍니다.");
             requestMessage(answer);
-        }else if (requestMessage == ""){
+        }else if (requestMessage.equals("")){
+            return "";
         }else{
             System.out.println("추가요청사항 : " + requestMessage);
                 System.out.println("확인했습니다. 감사합니다.");
+                return requestMessage;
             }
         }
+        return "";
     }
 }
