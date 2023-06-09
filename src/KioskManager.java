@@ -1,5 +1,6 @@
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,28 +25,23 @@ public class KioskManager {
 
         }
     }
-    public void getCurrentOrderList(){
+    public void getCurrentOrderList() {
         System.out.println("[ 최근 완료한 주문 ]");
         List<OrderData> currentOrderList = OrderData.orderedDataList;
-        if(currentOrderList.isEmpty()){
+
+        List<OrderData> currentOrderList2 = new ArrayList<>(currentOrderList);
+        Collections.reverse(currentOrderList2);
+
+        if (currentOrderList2.isEmpty()) {
             System.out.println("완료된 주문이 존재하지 않습니다.");
-        }
-        else{
-            for(OrderData orderData : currentOrderList){
-                if(orderData.getState() == 2){
-                    System.out.println(orderData);
-                }
-            }
-        }
-        System.out.println("---------------------------------------");
-        System.out.println("[ 대기중인 주문 ] ");
-        if(currentOrderList.isEmpty()){
-            System.out.println("대기중인 주문이 존재하지 않습니다.");
-        }
-        else{
-            for(OrderData orderData : currentOrderList){
-                if(orderData.getState() == 1){
-                    System.out.println(orderData);
+        } else {
+            int count = 0;
+            for (OrderData orderData : currentOrderList2) {
+                if (count < 3) {
+                    if (orderData.getState() == 2) {
+                        System.out.println(orderData);
+                        count++;
+                    }
                 }
             }
         }
