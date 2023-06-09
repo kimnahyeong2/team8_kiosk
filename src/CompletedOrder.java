@@ -41,7 +41,8 @@ public class CompletedOrder {
     }
     // 완료주문 일시
     public void setCompletedTime(LocalDateTime completedTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        completedTime.format(formatter);
         this.completedTime = completedTime;
     }
 }

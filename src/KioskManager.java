@@ -1,9 +1,13 @@
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class KioskManager {
 
     static Order order = new Order();
+    private static List<CompletedOrder> completedList = new ArrayList<>();
+    static Scanner sc = new Scanner(System.in);
 
 
     public void callManager(){
@@ -13,7 +17,7 @@ public class KioskManager {
 
         switch (answer){
             case 1 -> {getWaitingList();break;}
-            case 2 -> {break;}
+            case 2 -> {completeOrderList();break;}
             case 3 -> {break;}
             case 4 -> {break;}
             case 0 -> {break;}
@@ -71,11 +75,61 @@ public class KioskManager {
             else{
                 order.complete(answer);
                 System.out.println("상품이 완료주문으로 변경되었습니다.");
+
+                // 대기 주문에서 상품 목록 가져오기
+                String[] orderedNameList = waitingList.get(answer - 1).getNameList();
+                String[] completedProducts = new String[orderedNameList.length];
+                for (int i = 0; i < orderedNameList.length; i++) {
+                    completedProducts[i] = orderedNameList[i];
+                }
+
+                // 완료된 주문을 completedList에 추가
+                CompletedOrder completedOrder = new CompletedOrder(waitingList.get(answer - 1).getWaitingNumber(),
+                        completedProducts,
+                        waitingList.get(answer - 1).getTotalPrice(),
+                        waitingList.get(answer - 1).getRequiredMsg());
+                completedList.add(completedOrder);
+
                 getWaitingList();
             }
         }
     }
 
+    /*서지인*/
+    // 완료 주문 목록
+    public void completeOrderList() {
+        System.out.println("현재 완료 주문 목록입니다.");
+
+        if (completedList.isEmpty()) {
+            System.out.println("완료 주문 목록이 없습니다.");
+        } else {
+            for (CompletedOrder completedData : completedList) {
+                System.out.println("대기 번호 : " + completedData.getOrderNumber());
+                System.out.println("주문 번호 : " + completedData.getOrderNumber());
+                System.out.println("주문 총 가격 : " + completedData.getTotalPrice());
+                System.out.println("주문 일시 : " + completedData.getCompletedTime());
+                System.out.println("요청 사항 : " + completedData.getRequest());
+                LocalDateTime time = completedData.getCompletedTime();
+                completedData.setCompletedTime(time);
+                System.out.println("완료주문 일시 : " + time);
+                System.out.print("상품 목록 : ");
+
+                String[] productList = completedData.getCompletedList();
+                for (String product : productList) {
+                    System.out.println(product);
+                }
+
+                System.out.println("[0] : 돌아가기");
+                int input = sc.nextInt();
+                if (input == 0) {
+                    callManager();
+                } else {
+                    System.out.println("번호를 잘못 입력했습니다.");
+                    completeOrderList();
+                }
+            }
+        }
+    }
 
     public int input(){
         Scanner sc = new Scanner(System.in);
