@@ -18,8 +18,8 @@ public class KioskManager {
         switch (answer){
             case 1 -> {getWaitingList();break;}
             case 2 -> {completeOrderList();break;}
-            case 3 -> {break;}
-            case 4 -> {break;}
+            case 3 -> {createProduct();break;}
+            case 4 -> {deleteProduct();break;}
             case 0 -> {break;}
 
         }
@@ -127,6 +127,232 @@ public class KioskManager {
                     System.out.println("번호를 잘못 입력했습니다.");
                     completeOrderList();
                 }
+            }
+        }
+    }
+
+    //상품 생성
+
+    public static void createProduct() {
+
+        System.out.println("메뉴를 입력하세요:");
+        System.out.println("1. Burgers");
+        System.out.println("2. Custard");
+        System.out.println("3. Drink  ");
+        System.out.println("4. Beer   ");
+        System.out.println("5. New    ");
+
+        int menuName = sc.nextInt();
+
+        switch (menuName) {
+            case 1 -> {
+                System.out.println("상품 이름을 입력하세요:");
+                String name = sc.next();
+
+                System.out.println("상품 가격을 입력하세요:");
+                double price = sc.nextDouble();
+
+                System.out.println("상품 설명을 입력하세요:");
+                String desc = sc.next();
+
+                Product newProduct = new Product(name, price, desc);
+
+                Main.burgerArrayList.add(newProduct);
+
+                System.out.println("상품이 성공적으로 생성되었습니다!");
+                break;
+            }
+            case 2 -> {
+                System.out.println("상품 이름을 입력하세요:");
+                String name = sc.next();
+
+                System.out.println("상품 가격을 입력하세요:");
+                double price = sc.nextDouble();
+
+                System.out.println("상품 설명을 입력하세요:");
+                String desc = sc.next();
+
+                Product newProduct = new Product(name, price, desc);
+
+                Main.custardArrayList.add(newProduct);
+
+                System.out.println("상품이 성공적으로 생성되었습니다!");
+                break;
+            }
+            case 3 -> {
+                System.out.println("상품 이름을 입력하세요:");
+                String name = sc.next();
+
+                System.out.println("상품 가격을 입력하세요:");
+                double price = sc.nextDouble();
+
+                System.out.println("상품 설명을 입력하세요:");
+                String desc = sc.next();
+
+                Product newProduct = new Product(name, price, desc);
+
+                Main.drinkArrayList.add(newProduct);
+
+                System.out.println("상품이 성공적으로 생성되었습니다!");
+                break;
+            }
+            case 4 -> {
+                System.out.println("상품 이름을 입력하세요:");
+                String name = sc.next();
+
+                System.out.println("상품 가격을 입력하세요:");
+                double price = sc.nextDouble();
+
+                System.out.println("상품 설명을 입력하세요:");
+                String desc = sc.next();
+
+                Product newProduct = new Product(name, price, desc);
+
+                Main.beerArrayList.add(newProduct);
+
+                System.out.println("상품이 성공적으로 생성되었습니다!");
+                break;
+            }
+            case 5 -> {
+                System.out.println("상품 이름을 입력하세요:");
+                String name = sc.next();
+
+                System.out.println("상품 가격을 입력하세요:");
+                double price = sc.nextDouble();
+
+                System.out.println("상품 설명을 입력하세요:");
+                String desc = sc.next();
+
+                Product newProduct = new Product(name, price, desc);
+
+                Main.newProductArrayList.add(newProduct);
+
+                System.out.println("상품이 성공적으로 생성되었습니다!");
+                break;
+            }
+            default -> {
+                System.out.println("잘못된 값을 입력하셨습니다.");
+            }
+        }
+    }
+
+
+    // 상품 삭제
+
+    public static void deleteProduct() {
+
+        sc.nextLine(); // 입력 대기열에 남아있는 개행 문자 제거
+
+        System.out.println("삭제할 상품의 메뉴를 입력하세요:");
+        System.out.println("1. Burgers");
+        System.out.println("2. Custard");
+        System.out.println("3. Drink  ");
+        System.out.println("4. Beer   ");
+        System.out.println("5. New    ");
+
+        int delete = sc.nextInt();
+
+        switch (delete) {
+            case 1 -> {
+                for (Product product : Main.burgerArrayList) {
+                    System.out.println(product);
+                    System.out.println("Product ID: " + product.getProductId());
+                    System.out.println();
+                }
+
+                String productId = sc.next();
+
+                for (int i = 0; i < Main.burgerArrayList.size(); i++) {
+                    Product product = Main.burgerArrayList.get(i);
+                    if (product.getProductId().toString().equals(productId)) {
+                        Main.burgerArrayList.remove(i);
+                        System.out.println("상품이 성공적으로 삭제되었습니다!");
+                        return;
+                    }
+                }
+                System.out.println("입력한 ID와 일치하는 상품을 찾을 수 없습니다.");
+                break;
+            }
+            case 2 -> {
+                for (Product product : Main.custardArrayList) {
+                    System.out.println(product);
+                    System.out.println("Product ID: " + product.getProductId());
+                    System.out.println();
+                }
+
+                String productId = sc.next();
+
+                for (int i = 0; i < Main.custardArrayList.size(); i++) {
+                    Product product = Main.custardArrayList.get(i);
+                    if (product.getProductId().toString().equals(productId)) {
+                        Main.custardArrayList.remove(i);
+                        System.out.println("상품이 성공적으로 삭제되었습니다!");
+                        return;
+                    }
+                }
+                System.out.println("입력한 ID와 일치하는 상품을 찾을 수 없습니다.");
+                break;
+            }
+            case 3 -> {
+                for (Product product : Main.drinkArrayList) {
+                    System.out.println(product);
+                    System.out.println("Product ID: " + product.getProductId());
+                    System.out.println();
+                }
+
+                String productId = sc.next();
+
+                for (int i = 0; i < Main.drinkArrayList.size(); i++) {
+                    Product product = Main.drinkArrayList.get(i);
+                    if (product.getProductId().toString().equals(productId)) {
+                        Main.drinkArrayList.remove(i);
+                        System.out.println("상품이 성공적으로 삭제되었습니다!");
+                        return;
+                    }
+                }
+                System.out.println("입력한 ID와 일치하는 상품을 찾을 수 없습니다.");
+                break;
+            }
+            case 4 -> {
+                for (Product product : Main.beerArrayList) {
+                    System.out.println(product);
+                    System.out.println("Product ID: " + product.getProductId());
+                    System.out.println();
+                }
+
+                String productId = sc.next();
+
+                for (int i = 0; i < Main.beerArrayList.size(); i++) {
+                    Product product = Main.beerArrayList.get(i);
+                    if (product.getProductId().toString().equals(productId)) {
+                        Main.beerArrayList.remove(i);
+                        System.out.println("상품이 성공적으로 삭제되었습니다!");
+                        return;
+                    }
+                }
+                System.out.println("입력한 ID와 일치하는 상품을 찾을 수 없습니다.");
+                break;
+            }
+
+            case 5 -> {
+                for (Product product : Main.newProductArrayList) {
+                    System.out.println(product);
+                    System.out.println("Product ID: " + product.getProductId());
+                    System.out.println();
+                }
+
+                String productId = sc.next();
+
+                for (int i = 0; i <Main.newProductArrayList.size(); i++) {
+                    Product product = Main.newProductArrayList.get(i);
+                    if (product.getProductId().toString().equals(productId)) {
+                        Main.newProductArrayList.remove(i);
+                        System.out.println("상품이 성공적으로 삭제되었습니다!");
+                        return;
+                    }
+                }
+                System.out.println("입력한 ID와 일치하는 상품을 찾을 수 없습니다.");
+                break;
             }
         }
     }
